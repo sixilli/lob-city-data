@@ -1,2 +1,2 @@
-hello:
-	gcloud run deploy lob-city-data --image [IMAGE]
+deploy:
+	gcloud run deploy lob-city-data-api --port=8080 --source=.

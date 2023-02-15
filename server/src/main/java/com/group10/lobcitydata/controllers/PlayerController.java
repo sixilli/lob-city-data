@@ -21,7 +21,6 @@ public class PlayerController {
     public Map<String, String> getPlayerById(@PathVariable int id) {
         var map = new HashMap<String, String>();
         map.put("hello", String.valueOf(id));
-        rapidApiAdaptor.printConfig();
         return map;
     }
 }

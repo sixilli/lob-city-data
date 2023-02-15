@@ -36,7 +36,6 @@ public class RapidApiAdaptor {
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
         ApiResponse<Team> responseData = new ObjectMapper()
                                     .readerFor(ApiResponse.class)
                                     .readValue(response.body());
