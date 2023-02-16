@@ -1,6 +1,6 @@
 package com.group10.lobcitydata.controllers;
 
-import com.group10.lobcitydata.adaptors.RapidApiAdaptor;
+import com.group10.lobcitydata.services.RapidApiAdaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

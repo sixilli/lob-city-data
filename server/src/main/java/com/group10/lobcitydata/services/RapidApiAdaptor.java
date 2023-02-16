@@ -1,9 +1,6 @@
-package com.group10.lobcitydata.adaptors;
+package com.group10.lobcitydata.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group10.lobcitydata.configs.RapidApiConfig;
-import com.group10.lobcitydata.models.rapidapi.ApiResponse;
-import com.group10.lobcitydata.models.rapidapi.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +9,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 @Service
 public class RapidApiAdaptor {
@@ -23,7 +19,7 @@ public class RapidApiAdaptor {
         this.config = config;
     }
 
-    public List<Team> getTeams() throws IOException, InterruptedException {
+    public HttpResponse<String> getTeams() throws IOException, InterruptedException {
         StringBuilder reqBuilder = new StringBuilder();
         reqBuilder.append(config.getUrlBase());
         reqBuilder.append("/teams");
@@ -34,13 +30,8 @@ public class RapidApiAdaptor {
                 .header("X-RapidAPI-Host", config.getHost())
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        ApiResponse<Team> responseData = new ObjectMapper()
-                                    .readerFor(ApiResponse.class)
-                                    .readValue(response.body());
-
-        return responseData.getResponse();
+        return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     public void printConfig() {
