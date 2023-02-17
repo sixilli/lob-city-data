@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @EnableConfigurationProperties
-@PropertySource("classpath:application.yml")
 @ConfigurationProperties("rapidapi")
 public class RapidApiConfig {
     private String urlBase;
