@@ -15,5 +15,5 @@ export const router = createBrowserRouter([
   {
     path: "/button-error",
     element: <ExampleButton message={"error"} isError={true} />,
-  }
+  },
 ]);

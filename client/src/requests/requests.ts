@@ -1,5 +1,6 @@
-const urlBase = "https://lob-city-data-api-ql3yzcjy5a-uc.a.run.app"
+const urlBase = import.meta.env.API_URL;
 
 export async function requestTeams(): Promise<any> {
-    return fetch(urlBase + "/teams")
+  let resp = fetch(urlBase + "/teams");
+  return resp;
 }

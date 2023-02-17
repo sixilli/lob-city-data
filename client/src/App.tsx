@@ -1,17 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
 
 import { Link } from "react-router-dom";
 
 function App() {
-  return (
-    <AppComponent />
-  )
+  return <AppComponent />;
 }
 
 function AppComponent() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
@@ -32,7 +30,7 @@ function AppComponent() {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
