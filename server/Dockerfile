@@ -3,4 +3,4 @@ WORKDIR /web-server
 COPY . .
 EXPOSE 8080
 RUN mvn clean package -Pnative
-CMD ["java", "-jar", "target/lobcitydata-0.0.1-SNAPSHOT.jar", "--spring.config.name=application.yml"]
+CMD ["java", "-jar", "target/lobcitydata-0.0.1-SNAPSHOT.jar"]
