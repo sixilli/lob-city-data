@@ -33,8 +33,4 @@ public class RapidApiAdaptor {
 
         return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
     }
-
-    public void printConfig() {
-        System.out.println(config);
-    }
 }
