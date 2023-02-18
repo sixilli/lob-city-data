@@ -1,9 +1,9 @@
 import { Team } from "../models/rapidapi";
 
-const urlBase = import.meta.env.API_URL;
+const urlBase = import.meta.env.VITE_API_URL;
 
 export async function requestTeams(): Promise<Team[]> {
-  const response = await fetch(urlBase + "/teams");
-  const teams = (await response.json()) as Team[];
-  return teams;
+  const url = urlBase + "/teams";
+  const response = await fetch(url);
+  return response.json();
 }

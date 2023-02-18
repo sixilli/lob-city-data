@@ -4,8 +4,11 @@ import "./App.css";
 
 import { Link } from "react-router-dom";
 
+
 function App() {
-  return <AppComponent />;
+  return (
+      <AppComponent />
+  )
 }
 
 function AppComponent() {
@@ -21,6 +24,9 @@ function AppComponent() {
       </div>
       <div>
         <Link to={"button-error"}>error button</Link>
+      </div>
+      <div>
+        <Link to={"teams"}>Teams</Link>
       </div>
       <h1>Counter Example</h1>
       <div className="card">
