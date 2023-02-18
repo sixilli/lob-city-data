@@ -1,7 +1,6 @@
 package com.group10.lobcitydata.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group10.lobcitydata.models.rapidapi.ApiResponse;
+import com.group10.lobcitydata.models.ErrorMessage;
 import com.group10.lobcitydata.services.RapidApiAdaptor;
 import com.group10.lobcitydata.models.rapidapi.Team;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
-import java.io.IOException;
-import java.net.http.HttpResponse;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,19 +23,14 @@ public class TeamController  {
     RapidApiAdaptor rapidApiAdaptor;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Team>> getTeams() throws IOException, InterruptedException {
-        HttpResponse<String> response = rapidApiAdaptor.getTeams();
-        if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
-            return ResponseEntity
-                    .internalServerError()
-                    .build();
+    public ResponseEntity<List<Team>> getTeams() throws Exception {
+        // Request data from the external API
+        List<Team> teams = rapidApiAdaptor.getTeams();
+        if (teams.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "request found no teams");
         }
 
-        ApiResponse<Team> teams = new ObjectMapper()
-                .readerFor(ApiResponse.class)
-                .readValue(response.body());
-
-        return ResponseEntity.ok(teams.getResponse());
+        return ResponseEntity.ok(teams);
     }
 
     @GetMapping(path ="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

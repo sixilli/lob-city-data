@@ -1,8 +1,5 @@
 package com.group10.lobcitydata.models.rapidapi;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Team {
     int id;
     String name;
@@ -13,30 +10,6 @@ public class Team {
     Boolean allStar;
     Boolean nbaFranchise;
     League leagues;
-
-    @JsonCreator
-    public Team(
-            @JsonProperty("id") int id,
-            @JsonProperty("name") String name,
-            @JsonProperty("nickname") String nickname,
-            @JsonProperty("code") String code,
-            @JsonProperty("city") String city,
-            @JsonProperty("logo") String logo,
-            @JsonProperty("allStar") Boolean allStar,
-            @JsonProperty("nbaFranchise") Boolean nbaFranchise,
-            @JsonProperty("leagues") League leagues
-    ) {
-        this.id = id;
-        this.name = name;
-        this.nickname = nickname;
-        this.code = code;
-        this.city = city;
-        this.logo = logo;
-        this.allStar = allStar;
-        this.nbaFranchise = nbaFranchise;
-        this.leagues = leagues;
-    }
-
 
     public int getId() {
         return id;

@@ -12,20 +12,6 @@ public class ApiResponse<T> {
     private int results;
     private List<T> response;
 
-    @JsonCreator
-    public ApiResponse(
-            @JsonProperty("get") String get,
-            @JsonProperty("parameters") String[] parameters,
-            @JsonProperty("errors") String[] errors,
-            @JsonProperty("results") int results,
-            @JsonProperty("response") List<T> response
-    ) {
-        this.get = get;
-        this.parameters = parameters;
-        this.results = results;
-        this.response = response;
-    }
-
     public String getGet() {
         return get;
     }

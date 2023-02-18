@@ -1,26 +1,10 @@
 package com.group10.lobcitydata.models.rapidapi;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class League {
     private LeagueData standard;
     private LeagueData vegas;
     private LeagueData utah;
     private LeagueData sacramento;
-
-    @JsonCreator
-    public League(
-            @JsonProperty("standard") LeagueData standard,
-            @JsonProperty("vegas") LeagueData vegas,
-            @JsonProperty("utah") LeagueData utah,
-            @JsonProperty("sacramento") LeagueData sacramento
-    ) {
-        this.standard = standard;
-        this.vegas = vegas;
-        this.utah = utah;
-        this.sacramento = sacramento;
-    }
 
     public LeagueData getStandard() {
         return standard;
