@@ -1,12 +1,18 @@
 package com.group10.lobcitydata.models.rapidapi;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.List;
 import java.util.Map;
 
 public class ApiResponse<T> {
     private String get;
-    private Map<String, String> parameters;
-    private String[] errors;
+    @JsonDeserialize(using = ApiResponseDeserializer.class)
+    private String parameters;
+    @JsonDeserialize(using = ApiResponseDeserializer.class)
+    private String errors;
     private int results;
     private List<T> response;
 
@@ -18,7 +24,7 @@ public class ApiResponse<T> {
         this.get = get;
     }
 
-    public Map<String, String> getParameters() {
+    public String getParameters() {
         return parameters;
     }
 
@@ -26,7 +32,7 @@ public class ApiResponse<T> {
         return response;
     }
 
-    public void setParameters(Map<String, String> parameters) {
+    public void setParameters(String parameters) {
         this.parameters = parameters;
     }
 
@@ -42,11 +48,11 @@ public class ApiResponse<T> {
         this.response = response;
     }
 
-    public String[] getErrors() {
+    public String getErrors() {
         return errors;
     }
 
-    public void setErrors(String[] errors) {
+    public void setErrors(String errors) {
         this.errors = errors;
     }
 }
