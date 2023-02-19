@@ -43,6 +43,8 @@ public class RapidApiAdaptor {
             throw new Exception("Received a bad status code, Response: " + response.body());
         }
 
+        System.out.println(response.body());
+
         // Map the JSON string data to Java classes
         ApiResponse<Team> formattedResponse = new ObjectMapper()
                 .readerFor(ApiResponse.class)
