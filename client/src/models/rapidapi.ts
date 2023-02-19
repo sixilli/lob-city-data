@@ -10,6 +10,39 @@ export interface Team {
   leagues: League;
 }
 
+export interface Player {
+  id: Number
+  firstName: String
+  lastName: String
+  birth: Birth
+  nba: Nba
+  height: Height
+  weight: Weight
+  college: String
+  affiliation: String
+  leagues: League
+}
+
+export interface Birth {
+  date: String
+  country: String
+}
+
+export interface Nba {
+  start: Number
+  pro: Number
+}
+
+export interface Height {
+  feets: String
+  inches: String
+  meters: String
+}
+
+export interface Weight {
+  pounds: String
+  kilograms: String
+}
 export interface League {
   standard: LeagueData;
   vegas: LeagueData;

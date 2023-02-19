@@ -28,6 +28,9 @@ function AppComponent() {
       <div>
         <Link to={"teams"}>Teams</Link>
       </div>
+      <div>
+        <Link to={"Players"}>Players</Link>
+      </div>
       <h1>Counter Example</h1>
       <div className="card">
         <p>Click button to increment</p>

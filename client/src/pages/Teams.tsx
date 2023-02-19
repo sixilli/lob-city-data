@@ -30,7 +30,7 @@ export function Teams() {
         <Grid container spacing={0} columns={{ xs: 4, sm: 8, md: 12 }}>
           {data?.map((team, index) => (
             <>
-              {team.nbaFranchise &&
+        
                 <Grid xs={2} sm={4} md={4} key={index}>
                   <ListItemButton>
                     <ListItemText 
@@ -43,7 +43,7 @@ export function Teams() {
                     />
                   </ListItemButton> 
                 </Grid>
-              }
+            
             </>
           ))}
         </Grid>
