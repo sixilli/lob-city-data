@@ -28,7 +28,7 @@ public class RapidApiAdaptor {
         // Build URL for the request, I will probaby build something to make this nicer.
         StringBuilder reqBuilder = new StringBuilder();
         reqBuilder.append(config.getUrlBase());
-        reqBuilder.append("/teams?id=1");
+        reqBuilder.append("/teams");
 
         // Build the request to the external API
         HttpRequest request = HttpRequest.newBuilder()
@@ -55,7 +55,7 @@ public class RapidApiAdaptor {
     public List<Player> getPlayers() throws Exception {
         StringBuilder reqBuilder = new StringBuilder();
         reqBuilder.append(config.getUrlBase());
-        reqBuilder.append("/players");
+        reqBuilder.append("/players?country=USA");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(reqBuilder.toString()))
