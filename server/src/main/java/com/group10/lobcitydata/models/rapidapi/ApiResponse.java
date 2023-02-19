@@ -1,13 +1,11 @@
 package com.group10.lobcitydata.models.rapidapi;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+import java.util.Map;
 
 public class ApiResponse<T> {
     private String get;
-    private String[] parameters;
+    private Map<String, String> parameters;
     private String[] errors;
     private int results;
     private List<T> response;
@@ -20,7 +18,7 @@ public class ApiResponse<T> {
         this.get = get;
     }
 
-    public String[] getParameters() {
+    public Map<String, String> getParameters() {
         return parameters;
     }
 
@@ -28,7 +26,7 @@ public class ApiResponse<T> {
         return response;
     }
 
-    public void setParameters(String[] parameters) {
+    public void setParameters(Map<String, String> parameters) {
         this.parameters = parameters;
     }
 
