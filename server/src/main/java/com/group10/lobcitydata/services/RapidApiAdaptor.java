@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RapidApiAdaptor {
@@ -47,6 +48,19 @@ public class RapidApiAdaptor {
         ApiResponse<Team> formattedResponse = new ObjectMapper()
                 .readerFor(ApiResponse.class)
                 .readValue(response.body());
+
+        // Remove team that isn't playing, and fix LA to Los Angeles
+        formattedResponse.setResponse(formattedResponse.getResponse()
+                .stream()
+                .filter(team -> team.getName().equalsIgnoreCase("home"))
+                .map(team -> {
+                    if (team.getCity().equalsIgnoreCase("la"))  {
+                        team.setCity("Los Angeles");
+                    }
+                    return team;
+                })
+                .collect(Collectors.toList())
+        );
 
         return formattedResponse.getResponse();
     }
