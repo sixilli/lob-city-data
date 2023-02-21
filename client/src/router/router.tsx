@@ -19,6 +19,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/teams",
-    element: <Teams />
-  }
+    element: <Teams />,
+  },
 ]);
