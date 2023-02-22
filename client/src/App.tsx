@@ -1,5 +1,4 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
 
 import { Link } from "react-router-dom";
@@ -26,7 +25,7 @@ function AppComponent() {
         <Link to={"teams"}>Teams</Link>
       </div>
       <div>
-        <Link to={"Players"}>Players</Link>
+        <Link to={"players"}>Players</Link>
       </div>
       <h1>Counter Example</h1>
       <div className="card">

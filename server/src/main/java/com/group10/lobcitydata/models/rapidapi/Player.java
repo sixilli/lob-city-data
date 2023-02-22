@@ -1,8 +1,5 @@
 package com.group10.lobcitydata.models.rapidapi;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Player {
     int id;
     String firstname;
@@ -13,34 +10,8 @@ public class Player {
     Weight weight;
     String college;
     String affiliation;
-    League leagues;
+    TeamLeague leagues;
     
-    @JsonCreator
-    public Player(
-        @JsonProperty("id") int id,
-        @JsonProperty("firstname") String firstname,
-        @JsonProperty("lastname") String lastname,
-        @JsonProperty("birth") Birth birth,
-        @JsonProperty("nba") Nba nba,
-        @JsonProperty("height") Height height,
-        @JsonProperty("weight") Weight weight,
-        @JsonProperty("college") String college,
-        @JsonProperty("affiliation") String affiliation,
-        @JsonProperty("leagues") League leagues
-      
-    ) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birth = birth;
-        this.nba = nba;
-        this.height = height;
-        this.weight = weight;
-        this.college = college;
-        this.affiliation = affiliation;
-        this.leagues = leagues;
-    }
-
 
     public int getId() {
         return this.id;
@@ -114,11 +85,11 @@ public class Player {
         this.affiliation = affiliation;
     }
 
-    public League getLeagues() {
+    public TeamLeague getLeagues() {
         return this.leagues;
     }
 
-    public void setLeagues(League leagues) {
+    public void setLeagues(TeamLeague leagues) {
         this.leagues = leagues;
     }
 }
