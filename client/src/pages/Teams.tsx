@@ -10,6 +10,17 @@ import { Team } from "../models/rapidapi";
 import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
+function cleanTeamData(teams: Team[]) {
+  return teams
+    .filter((team) => !(team.city.toLowerCase() === "home"))
+    .map((team) => {
+      if (team.city.toLocaleLowerCase() === "la") {
+        team.name = "Los Angeles";
+      }
+      return team;
+    });
+}
+
 export function Teams() {
   const { isLoading, error, data } = useQuery<Team[], Error>(
     "teams",
@@ -34,24 +45,25 @@ export function Teams() {
           NBA Teams
         </Typography>
         <Grid container spacing={0} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {data?.map((team, index) => (
-            <>
-              {team.nbaFranchise && (
-                <Grid xs={2} sm={4} md={4} key={index}>
-                  <ListItemButton>
-                    <ListItemText
-                      primary={team.name}
-                      secondary={
-                        <Typography style={{ color: "gray" }}>
-                          {team.city}
-                        </Typography>
-                      }
-                    />
-                  </ListItemButton>
-                </Grid>
-              )}
-            </>
-          ))}
+          {data &&
+            cleanTeamData(data)?.map((team, index) => (
+              <>
+                {team.nbaFranchise && (
+                  <Grid xs={2} sm={4} md={4} key={index}>
+                    <ListItemButton>
+                      <ListItemText
+                        primary={team.name}
+                        secondary={
+                          <Typography style={{ color: "gray" }}>
+                            {team.city}
+                          </Typography>
+                        }
+                      />
+                    </ListItemButton>
+                  </Grid>
+                )}
+              </>
+            ))}
         </Grid>
       </Stack>
     </>

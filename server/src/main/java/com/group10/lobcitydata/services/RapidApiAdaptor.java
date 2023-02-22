@@ -55,19 +55,6 @@ public class RapidApiAdaptor {
                 .readerFor(type)
                 .readValue(response.body());
 
-        // Remove team that isn't playing, and fix LA to Los Angeles
-        formattedResponse.setResponse(formattedResponse.getResponse()
-                .stream()
-                .filter(team -> !team.getName().equalsIgnoreCase("home"))
-                .map(team -> {
-                    if (team.getCity().equalsIgnoreCase("la"))  {
-                        team.setCity("Los Angeles");
-                    }
-                    return team;
-                })
-                .collect(Collectors.toList())
-        );
-
         return formattedResponse.getResponse();
     }
 }
