@@ -5,6 +5,7 @@ public class League {
     private LeagueData vegas;
     private LeagueData utah;
     private LeagueData sacramento;
+    private LeagueData africa;
 
     public LeagueData getStandard() {
         return standard;
@@ -36,5 +37,13 @@ public class League {
 
     public void setSacramento(LeagueData sacramento) {
         this.sacramento = sacramento;
+    }
+
+    public LeagueData getAfrica() {
+        return africa;
+    }
+
+    public void setAfrica(LeagueData africa) {
+        this.africa = africa;
     }
 }

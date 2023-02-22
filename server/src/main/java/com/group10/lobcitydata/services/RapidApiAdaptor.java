@@ -1,9 +1,11 @@
 package com.group10.lobcitydata.services;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group10.lobcitydata.configs.RapidApiConfig;
 import com.group10.lobcitydata.models.rapidapi.ApiResponse;
 import com.group10.lobcitydata.models.rapidapi.Team;
+import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,8 +47,12 @@ public class RapidApiAdaptor {
         }
 
         // Map the JSON string data to Java classes
+        ObjectMapper mapper = new ObjectMapper();
+        JavaType type = mapper.getTypeFactory().
+                constructParametricType(ApiResponse.class, Team.class);
+
         ApiResponse<Team> formattedResponse = new ObjectMapper()
-                .readerFor(ApiResponse.class)
+                .readerFor(type)
                 .readValue(response.body());
 
         // Remove team that isn't playing, and fix LA to Los Angeles
