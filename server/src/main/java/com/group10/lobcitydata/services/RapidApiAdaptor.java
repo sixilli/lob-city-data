@@ -38,7 +38,7 @@ public class RapidApiAdaptor {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
 
-        // Execute the request and if we recieve back a non 200 status code we will throw an error
+        // Execute the request and if we receive back a non 200 status code we will throw an error
         var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
             throw new Exception("Received a bad status code, Response: " + response.body());
@@ -52,7 +52,7 @@ public class RapidApiAdaptor {
         // Remove team that isn't playing, and fix LA to Los Angeles
         formattedResponse.setResponse(formattedResponse.getResponse()
                 .stream()
-                .filter(team -> team.getName().equalsIgnoreCase("home"))
+                .filter(team -> !team.getName().equalsIgnoreCase("home"))
                 .map(team -> {
                     if (team.getCity().equalsIgnoreCase("la"))  {
                         team.setCity("Los Angeles");
