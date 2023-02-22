@@ -9,7 +9,7 @@ public class Team {
     String logo;
     Boolean allStar;
     Boolean nbaFranchise;
-    League leagues;
+    TeamLeague leagues;
 
     public int getId() {
         return id;
@@ -75,11 +75,11 @@ public class Team {
         this.nbaFranchise = nbaFranchise;
     }
 
-    public League getLeagues() {
+    public TeamLeague getLeagues() {
         return leagues;
     }
 
-    public void setLeagues(League leagues) {
+    public void setLeagues(TeamLeague leagues) {
         this.leagues = leagues;
     }
 }
