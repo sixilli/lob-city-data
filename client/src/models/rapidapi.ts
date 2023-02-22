@@ -12,8 +12,8 @@ export interface Team {
 
 export interface Player {
   id: Number
-  firstName: String
-  lastName: String
+  firstname: String
+  lastname: String
   birth: Birth
   nba: Nba
   height: Height

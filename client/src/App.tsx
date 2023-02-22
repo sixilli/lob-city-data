@@ -4,11 +4,8 @@ import "./App.css";
 
 import { Link } from "react-router-dom";
 
-
 function App() {
-  return (
-      <AppComponent />
-  )
+  return <AppComponent />;
 }
 
 function AppComponent() {

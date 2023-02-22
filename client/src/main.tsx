@@ -4,9 +4,9 @@ import "./index.css";
 
 import { router } from "./router/router";
 import { RouterProvider } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from "react-query";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

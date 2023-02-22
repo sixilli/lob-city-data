@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Player {
     int id;
-    String firstName;
-    String lastName;
+    String firstname;
+    String lastname;
     Birth birth;
     Nba nba;
     Height height;
@@ -18,8 +18,8 @@ public class Player {
     @JsonCreator
     public Player(
         @JsonProperty("id") int id,
-        @JsonProperty("firstName") String firstName,
-        @JsonProperty("lastName") String lastName,
+        @JsonProperty("firstname") String firstname,
+        @JsonProperty("lastname") String lastname,
         @JsonProperty("birth") Birth birth,
         @JsonProperty("nba") Nba nba,
         @JsonProperty("height") Height height,
@@ -30,8 +30,8 @@ public class Player {
       
     ) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.birth = birth;
         this.nba = nba;
         this.height = height;
@@ -50,20 +50,20 @@ public class Player {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return this.firstName;
+    public String getFirstname() {
+        return this.firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLastName() {
-        return this.lastName;
+    public String getLastname() {
+        return this.lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
     }
 
     public Birth getBirth() {
