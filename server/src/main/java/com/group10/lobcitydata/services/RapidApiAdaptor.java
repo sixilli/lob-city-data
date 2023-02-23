@@ -6,6 +6,7 @@ import com.group10.lobcitydata.configs.RapidApiConfig;
 import com.group10.lobcitydata.models.rapidapi.ApiResponse;
 import com.group10.lobcitydata.models.rapidapi.Player;
 import com.group10.lobcitydata.models.rapidapi.Team;
+import com.group10.lobcitydata.models.rapidapi.Standing;
 import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -82,4 +83,28 @@ public class RapidApiAdaptor {
 
         return formattedResponse.getResponse();
     }
+     public List<Standing> getStandings() throws Exception {
+        StringBuilder reqBuilder = new StringBuilder();
+        reqBuilder.append(config.getUrlBase());
+        reqBuilder.append("/standings");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(reqBuilder.toString()))
+                .header("X-RapidAPI-Key", config.getApiKey())
+                .header("X-RapidAPI-Host", config.getHost())
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
+            throw new Exception("Received a bad status code, Response: " + response.body());
+        }
+
+        ApiResponse<Standing> formattedResponse = new ObjectMapper()
+                .readerFor(ApiResponse.class)
+                .readValue(response.body());
+
+        return formattedResponse.getResponse();
+    }
 }
+
