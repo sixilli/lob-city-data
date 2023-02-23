@@ -1,6 +1,6 @@
 package com.group10.lobcitydata.models.rapidapi;
 
-public class LeagueData {
+public class TeamLeagueData {
     private String conference;
     private String division;
 

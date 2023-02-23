@@ -19,3 +19,13 @@ export async function requestTeams(): Promise<any> {
     console.log(error);
   }
 }
+
+export async function requestPlayers(): Promise<any> {
+  try {
+    const url = urlBase + "/players?country=USA";
+    const response = await makeRequest(url);
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
