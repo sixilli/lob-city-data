@@ -86,7 +86,7 @@ public class RapidApiAdaptor {
      public List<Standing> getStandings() throws Exception {
         StringBuilder reqBuilder = new StringBuilder();
         reqBuilder.append(config.getUrlBase());
-        reqBuilder.append("/standings");
+        reqBuilder.append("/standings?league=standard&season=2021");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(reqBuilder.toString()))
