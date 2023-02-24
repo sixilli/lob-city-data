@@ -1,85 +1,87 @@
 package com.group10.lobcitydata.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.group10.lobcitydata.builders.UrlBuilder;
 import com.group10.lobcitydata.configs.RapidApiConfig;
 import com.group10.lobcitydata.models.rapidapi.ApiResponse;
 import com.group10.lobcitydata.models.rapidapi.Player;
 import com.group10.lobcitydata.models.rapidapi.Team;
-import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 public class RapidApiAdaptor {
     private final RapidApiConfig config;
+
+    private static final String TEAMS_PATH = "/teams";
+    private static final String PLAYERS_PATH = "/players";
 
     @Autowired
     public RapidApiAdaptor(RapidApiConfig config) {
         this.config = config;
     }
 
-    public List<Team> getTeams() throws Exception {
-        // Build URL for the request, I will probaby build something to make this nicer.
-        StringBuilder reqBuilder = new StringBuilder();
-        reqBuilder.append(config.getUrlBase());
-        reqBuilder.append("/teams");
+    public List<Team> getTeams(Map<String, String> queryParams) throws Exception {
+        UrlBuilder ub = new UrlBuilder(config.getUrlBase(), TEAMS_PATH);
+        if (!queryParams.isEmpty()) {
+            ub.addQueryParam(queryParams);
+        }
 
-        // Build the request to the external API
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(reqBuilder.toString()))
-                .header("X-RapidAPI-Key", config.getApiKey())
-                .header("X-RapidAPI-Host", config.getHost())
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-
-        // Execute the request and if we receive back a non 200 status code we will throw an error
-        var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = makeGetRequest(ub);
         if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
             throw new Exception("Received a bad status code, Response: " + response.body());
         }
 
-        // Map the JSON string data to Java classes
-        ObjectMapper mapper = new ObjectMapper();
-        JavaType type = mapper.getTypeFactory().
-                constructParametricType(ApiResponse.class, Team.class);
-
-        ApiResponse<Team> formattedResponse = new ObjectMapper()
-                .readerFor(type)
-                .readValue(response.body());
-
-        return formattedResponse.getResponse();
+        return mapResponse(Team.class, response.body()).getResponse();
     }
 
-    public List<Player> getPlayers() throws Exception {
-        StringBuilder reqBuilder = new StringBuilder();
-        reqBuilder.append(config.getUrlBase());
-        reqBuilder.append("/players?country=USA");
+    public List<Player> getPlayers(Map<String, String> queryParams) throws Exception {
+        UrlBuilder ub = new UrlBuilder(config.getUrlBase(), PLAYERS_PATH);
+        ub.addQueryParam("country", "USA");
+        if (!queryParams.isEmpty()) {
+            ub.addQueryParam(queryParams);
+        }
 
+        HttpResponse<String> response = makeGetRequest(ub);
+        if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
+            throw new Exception("Received a bad status code, Response: " + response.body());
+        }
+
+        return mapResponse(Player.class, response.body()).getResponse();
+    }
+
+    private HttpResponse<String> makeGetRequest(UrlBuilder url) throws IOException, InterruptedException {
+        // Build the request to the external API
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(reqBuilder.toString()))
+                .uri(URI.create(url.toString()))
                 .header("X-RapidAPI-Key", config.getApiKey())
                 .header("X-RapidAPI-Host", config.getHost())
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
 
-        var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
-            throw new Exception("Received a bad status code, Response: " + response.body());
-        }
+        return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+    }
 
-        ApiResponse<Player> formattedResponse = new ObjectMapper()
-                .readerFor(ApiResponse.class)
-                .readValue(response.body());
+    private static <T> ApiResponse<T> mapResponse(Class<T> rawType, String body) throws JsonProcessingException {
+        JavaType type = new ObjectMapper().getTypeFactory().
+                constructParametricType(ApiResponse.class, rawType);
 
-        return formattedResponse.getResponse();
+        ApiResponse<T> formattedResponse = new ObjectMapper()
+                .readerFor(type)
+                .readValue(body);
+
+
+        return formattedResponse;
     }
 }
