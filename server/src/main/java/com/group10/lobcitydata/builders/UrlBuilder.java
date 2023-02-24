@@ -17,7 +17,7 @@ public class UrlBuilder {
         this.queryParams.put(key, value);
     }
 
-    public void addQueryParam(Map<String,String> queryParams) {
+    public void addQueryParams(Map<String,String> queryParams) {
         queryParams.forEach((key, value) -> this.queryParams.put(key, value));
     }
 

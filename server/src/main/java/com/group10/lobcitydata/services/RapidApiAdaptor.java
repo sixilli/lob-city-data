@@ -35,7 +35,7 @@ public class RapidApiAdaptor {
     public List<Team> getTeams(Map<String, String> queryParams) throws Exception {
         UrlBuilder ub = new UrlBuilder(config.getUrlBase(), TEAMS_PATH);
         if (!queryParams.isEmpty()) {
-            ub.addQueryParam(queryParams);
+            ub.addQueryParams(queryParams);
         }
 
         HttpResponse<String> response = makeGetRequest(ub);
@@ -48,9 +48,8 @@ public class RapidApiAdaptor {
 
     public List<Player> getPlayers(Map<String, String> queryParams) throws Exception {
         UrlBuilder ub = new UrlBuilder(config.getUrlBase(), PLAYERS_PATH);
-        ub.addQueryParam("country", "USA");
         if (!queryParams.isEmpty()) {
-            ub.addQueryParam(queryParams);
+            ub.addQueryParams(queryParams);
         }
 
         HttpResponse<String> response = makeGetRequest(ub);
