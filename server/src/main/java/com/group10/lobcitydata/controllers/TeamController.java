@@ -10,11 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("teams")
@@ -23,9 +19,18 @@ public class TeamController  {
     RapidApiAdaptor rapidApiAdaptor;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Team>> getTeams() throws Exception {
-        // Request data from the external API
-        List<Team> teams = rapidApiAdaptor.getTeams();
+    public ResponseEntity<List<Team>> getTeams(@RequestParam Map<String,String> queryParams) throws Exception {
+        Set<String> validQueryParameters = new HashSet<>(Arrays.asList("id", "name", "code", "league",
+                "conference", "division", "search"));
+
+        queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
+
+        if (queryParams.size() < 1) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,
+                    "players endpoint requires at least one query parameter");
+        }
+
+        List<Team> teams = rapidApiAdaptor.getTeams(queryParams);
         if (teams.isEmpty()) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "request found no teams");
         }

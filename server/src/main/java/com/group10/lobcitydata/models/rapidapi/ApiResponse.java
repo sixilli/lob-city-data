@@ -1,11 +1,7 @@
 package com.group10.lobcitydata.models.rapidapi;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.util.List;
-import java.util.Map;
 
 public class ApiResponse<T> {
     private String get;

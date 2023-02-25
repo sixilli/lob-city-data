@@ -10,7 +10,7 @@ public class Player {
     Weight weight;
     String college;
     String affiliation;
-    TeamLeague leagues;
+    PlayerLeague leagues;
     
 
     public int getId() {
@@ -85,11 +85,11 @@ public class Player {
         this.affiliation = affiliation;
     }
 
-    public TeamLeague getLeagues() {
+    public PlayerLeague getLeagues() {
         return this.leagues;
     }
 
-    public void setLeagues(TeamLeague leagues) {
+    public void setLeagues(PlayerLeague leagues) {
         this.leagues = leagues;
     }
 }
