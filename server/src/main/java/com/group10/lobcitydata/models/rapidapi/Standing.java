@@ -1,8 +1,5 @@
 package com.group10.lobcitydata.models.rapidapi;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Standing {
     private String league;
     private int season;
