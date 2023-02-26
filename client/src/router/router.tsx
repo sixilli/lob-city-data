@@ -4,6 +4,7 @@ import App from "../App";
 import { ExampleButton } from "../components/ExampleButton/ExampleButton";
 import { Teams } from "../pages/Teams";
 import { Players } from "../pages/Players";
+import { NotFound } from "../pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -20,10 +21,14 @@ export const router = createBrowserRouter([
   },
   {
     path: "/teams",
-    element: <Teams />
+    element: <Teams />,
   },
   {
     path: "/players",
-    element: <Players />
-  }
+    element: <Players />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
