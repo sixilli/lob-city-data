@@ -8,7 +8,7 @@ type Props = {
   year: string;
 };
 
-export default function SelectAutoWidth({ message}: Props) {
+export default function SelectAutoWidth({ year }: Props) {
   const [year, setYear] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
