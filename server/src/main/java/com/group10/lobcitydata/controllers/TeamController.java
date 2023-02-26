@@ -1,6 +1,7 @@
 package com.group10.lobcitydata.controllers;
 
 import com.group10.lobcitydata.models.ErrorMessage;
+import com.group10.lobcitydata.models.rapidapi.TeamStatistic;
 import com.group10.lobcitydata.services.RapidApiAdaptor;
 import com.group10.lobcitydata.models.rapidapi.Team;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,38 @@ public class TeamController  {
 
         queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
 
-        if (queryParams.size() < 1) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,
-                    "players endpoint requires at least one query parameter");
-        }
-
         List<Team> teams = rapidApiAdaptor.getTeams(queryParams);
         if (teams.isEmpty()) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "request found no teams");
+        }
+
+        return ResponseEntity.ok(teams);
+    }
+
+    @GetMapping(path = "/{id}/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TeamStatistic>> getTeamStatistics(@RequestParam Map<String, String> queryParams, @PathVariable String id) throws Exception {
+        Set<String> validQueryParameters = new HashSet<>(Arrays.asList("season"));
+        queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
+
+        if (queryParams.size() < 1) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,
+                    "teams statistics endpoint requires the season query parameter");
+        }
+
+        if (id.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,
+                    "teams statistics endpoint requires a path variable");
+        }
+
+        try {
+            Integer.parseInt(id);
+        } catch (NumberFormatException ex) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "invalid team id: " + id);
+        }
+
+        List<TeamStatistic> teams = rapidApiAdaptor.getTeamStatistics(queryParams, id);
+        if (teams.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "request found no stats for team with id: " + id);
         }
 
         return ResponseEntity.ok(teams);
