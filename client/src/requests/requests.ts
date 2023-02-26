@@ -5,7 +5,7 @@ async function makeRequest(url: string): Promise<Response> {
   if (!response.ok) {
     const message = await response.json();
     throw new Error(
-      `recieved a HTTP status code of: ${
+      `received a HTTP status code of: ${
         response.status
       }, body: ${JSON.stringify(message)}`
     );
