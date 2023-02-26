@@ -47,9 +47,11 @@ export function TeamStatsModal({
     handleClose();
   }
 
-  const makeGridBlock = (message: string) => (
-    <Grid item xs={4}>
-      <Typography variant="body1">{message}</Typography>
+  const makeGridBlock = (message: string, key: string) => (
+    <Grid item xs={4} key={key}>
+      <Typography variant="body1" key={key + "-body"}>
+        {message}
+      </Typography>
     </Grid>
   );
 
@@ -71,48 +73,82 @@ export function TeamStatsModal({
     <>
       {data && (
         <Stack spacing={2}>
-          {data.map((stats) => (
+          {data.map((stats, index) => (
             <>
               <TeamStastModalHeader
                 teamName={teamName}
                 selectedSeason={selectedSeason}
+                key={`${index}-header`}
               />
               <SelectField
                 label={"Season"}
                 defaultValue={selectedSeason}
                 keyValues={seasonSelections(20)}
                 handleChange={handleChange}
+                key={`${index}-select`}
               />
               <Grid container spacing={2}>
-                {makeGridBlock(`Games: ${stats.games}`)}
-                {makeGridBlock(`Fast Break Points: ${stats.fastBreakPoints}`)}
-                {makeGridBlock(`Points in Paint: ${stats.pointsInPaint}`)}
-                {makeGridBlock(`Biggest Lead: ${stats.biggestLead}`)}
+                {makeGridBlock(`Games: ${stats.games}`, `${index}-games`)}
                 {makeGridBlock(
-                  `Second Chance Points: ${stats.secondChancePoints}`
+                  `Fast Break Points: ${stats.fastBreakPoints}`,
+                  `${index}-break-points`
                 )}
                 {makeGridBlock(
-                  `Points Off Turnovers: ${stats.pointsOffTurnovers}`
+                  `Points in Paint: ${stats.pointsInPaint}`,
+                  `${index}-paint`
                 )}
-                {makeGridBlock(`Longest Run: ${stats.longestRun}`)}
-                {makeGridBlock(`Points: ${stats.points}`)}
-                {makeGridBlock(`FGM: ${stats.fgm}`)}
-                {makeGridBlock(`FGA: ${stats.fga}`)}
-                {makeGridBlock(`FGP: ${stats.fgp}`)}
-                {makeGridBlock(`FTM: ${stats.ftm}`)}
-                {makeGridBlock(`FTA: ${stats.fta}`)}
-                {makeGridBlock(`FTP: ${stats.ftp}`)}
-                {makeGridBlock(`TPM: ${stats.tpm}`)}
-                {makeGridBlock(`TPA: ${stats.tpa}`)}
-                {makeGridBlock(`Offensive Rebound: ${stats.offReb}`)}
-                {makeGridBlock(`Defensive Rebounds: ${stats.defReb}`)}
-                {makeGridBlock(`Total Rebounds: ${stats.totReb}`)}
-                {makeGridBlock(`Assists: ${stats.assists}`)}
-                {makeGridBlock(`Penalty Fouls: ${stats.pFouls}`)}
-                {makeGridBlock(`Steals: ${stats.steals}`)}
-                {makeGridBlock(`Turnovers: ${stats.turnovers}`)}
-                {makeGridBlock(`Blocks: ${stats.blocks}`)}
-                {makeGridBlock(`Plus Minus: ${stats.plusMinus}`)}
+                {makeGridBlock(
+                  `Biggest Lead: ${stats.biggestLead}`,
+                  `${index}-biggest-lead`
+                )}
+                {makeGridBlock(
+                  `Second Chance Points: ${stats.secondChancePoints}`,
+                  `${index}second-chance`
+                )}
+                {makeGridBlock(
+                  `Points Off Turnovers: ${stats.pointsOffTurnovers}`,
+                  `${index}-points-off-turnovers`
+                )}
+                {makeGridBlock(
+                  `Longest Run: ${stats.longestRun}`,
+                  `${index}-longest-run`
+                )}
+                {makeGridBlock(`Points: ${stats.points}`, `${index}-points`)}
+                {makeGridBlock(`FGM: ${stats.fgm}`, `${index}-fgm`)}
+                {makeGridBlock(`FGA: ${stats.fga}`, `${index}-fga`)}
+                {makeGridBlock(`FGP: ${stats.fgp}`, `${index}-fgp`)}
+                {makeGridBlock(`FTM: ${stats.ftm}`, `${index}-ftm`)}
+                {makeGridBlock(`FTA: ${stats.fta}`, `${index}-fta`)}
+                {makeGridBlock(`FTP: ${stats.ftp}`, `${index}-ftp`)}
+                {makeGridBlock(`TPM: ${stats.tpm}`, `${index}-tpm`)}
+                {makeGridBlock(`TPA: ${stats.tpa}`, `${index}-tpa`)}
+                {makeGridBlock(
+                  `Offensive Rebound: ${stats.offReb}`,
+                  `${index}-off-rebounds`
+                )}
+                {makeGridBlock(
+                  `Defensive Rebounds: ${stats.defReb}`,
+                  `${index}-def-rebounds`
+                )}
+                {makeGridBlock(
+                  `Total Rebounds: ${stats.totReb}`,
+                  `${index}-tot-rebounds`
+                )}
+                {makeGridBlock(`Assists: ${stats.assists}`, `${index}-assits`)}
+                {makeGridBlock(
+                  `Penalty Fouls: ${stats.pFouls}`,
+                  `${index}-fouls`
+                )}
+                {makeGridBlock(`Steals: ${stats.steals}`, `${index}-steals`)}
+                {makeGridBlock(
+                  `Turnovers: ${stats.turnovers}`,
+                  `${index}-turnovers`
+                )}
+                {makeGridBlock(`Blocks: ${stats.blocks}`, `${index}-blocks`)}
+                {makeGridBlock(
+                  `Plus Minus: ${stats.plusMinus}`,
+                  `${index}-plus-minus`
+                )}
               </Grid>
             </>
           ))}
