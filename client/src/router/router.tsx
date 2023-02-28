@@ -5,6 +5,7 @@ import { ExampleButton } from "../components/ExampleButton/ExampleButton";
 import { Teams } from "../pages/Teams";
 import { Players } from "../pages/Players";
 import SidebarLayout from "../components/SidebarLayout/SidebarLayout";
+import { NotFound } from "../pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -30,5 +31,9 @@ export const router = createBrowserRouter([
   {
     path: "/players",
     element: <SidebarLayout content={<Players />} />,
+  },
+  {
+    path: "*",
+    element: <SidebarLayout content={<NotFound />} />,
   },
 ]);
