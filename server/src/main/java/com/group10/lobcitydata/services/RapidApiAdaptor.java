@@ -8,6 +8,7 @@ import com.group10.lobcitydata.configs.RapidApiConfig;
 import com.group10.lobcitydata.models.rapidapi.ApiResponse;
 import com.group10.lobcitydata.models.rapidapi.Player;
 import com.group10.lobcitydata.models.rapidapi.Team;
+import com.group10.lobcitydata.models.rapidapi.TeamStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class RapidApiAdaptor {
     private final RapidApiConfig config;
 
     private static final String TEAMS_PATH = "/teams";
+    private static final String TEAM_STATISTICS_PATH = "/teams/statistics";
     private static final String PLAYERS_PATH = "/players";
 
     @Autowired
@@ -39,9 +41,6 @@ public class RapidApiAdaptor {
         }
 
         HttpResponse<String> response = makeGetRequest(ub);
-        if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
-            throw new Exception("Received a bad status code, Response: " + response.body());
-        }
 
         return mapResponse(Team.class, response.body()).getResponse();
     }
@@ -53,14 +52,23 @@ public class RapidApiAdaptor {
         }
 
         HttpResponse<String> response = makeGetRequest(ub);
-        if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
-            throw new Exception("Received a bad status code, Response: " + response.body());
-        }
 
         return mapResponse(Player.class, response.body()).getResponse();
     }
 
-    private HttpResponse<String> makeGetRequest(UrlBuilder url) throws IOException, InterruptedException {
+    public List<TeamStatistic> getTeamStatistics(Map<String, String> queryParams, String teamId) throws Exception {
+        UrlBuilder ub = new UrlBuilder(config.getUrlBase(), TEAM_STATISTICS_PATH);
+        if (!queryParams.isEmpty()) {
+            ub.addQueryParams(queryParams);
+        }
+        ub.addQueryParam("id", teamId);
+
+        HttpResponse<String> response = makeGetRequest(ub);
+
+        return mapResponse(TeamStatistic.class, response.body()).getResponse();
+    }
+
+    private HttpResponse<String> makeGetRequest(UrlBuilder url) throws Exception {
         // Build the request to the external API
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url.toString()))
@@ -69,7 +77,12 @@ public class RapidApiAdaptor {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
 
-        return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response =  HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        if (!HttpStatus.valueOf(response.statusCode()).is2xxSuccessful()) {
+            throw new Exception("Received a bad status code, Response: " + response.body());
+        }
+
+        return response;
     }
 
     private static <T> ApiResponse<T> mapResponse(Class<T> rawType, String body) throws JsonProcessingException {
@@ -83,4 +96,5 @@ public class RapidApiAdaptor {
 
         return formattedResponse;
     }
+
 }

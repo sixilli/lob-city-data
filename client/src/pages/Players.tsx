@@ -22,7 +22,7 @@ export function Players() {
     );
 
   if (error) {
-    console.log(error, data);
+    console.log(error.message, data);
   }
 
   return (

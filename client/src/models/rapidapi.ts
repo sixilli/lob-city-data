@@ -60,3 +60,32 @@ export interface PlayerLeague {
   active: Boolean;
   pos: String;
 }
+
+export interface TeamStatistics {
+  games: Number;
+  fastBreakPoints: Number;
+  pointsInPaint: Number;
+  biggestLead: Number;
+  secondChancePoints: Number;
+  pointsOffTurnovers: Number;
+  longestRun: Number;
+  points: Number;
+  fgm: Number;
+  fga: Number;
+  fgp: Number;
+  ftm: Number;
+  fta: Number;
+  ftp: Number;
+  tpm: Number;
+  tpa: Number;
+  tpp: Number;
+  offReb: Number;
+  defReb: Number;
+  totReb: Number;
+  assists: Number;
+  pFouls: Number;
+  steals: Number;
+  turnovers: Number;
+  blocks: Number;
+  plusMinus: Number;
+}
