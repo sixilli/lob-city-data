@@ -4,26 +4,31 @@ import App from "../App";
 import { ExampleButton } from "../components/ExampleButton/ExampleButton";
 import { Teams } from "../pages/Teams";
 import { Players } from "../pages/Players";
+import SidebarLayout from "../components/SidebarLayout/SidebarLayout";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <SidebarLayout content={<App />} />,
   },
   {
     path: "/button",
-    element: <ExampleButton message={"hello"} />,
+    element: <SidebarLayout content={<ExampleButton message={"hello"} />} />,
   },
   {
     path: "/button-error",
-    element: <ExampleButton message={"error"} isError={true} />,
+    element: (
+      <SidebarLayout
+        content={<ExampleButton message={"error"} isError={true} />}
+      />
+    ),
   },
   {
     path: "/teams",
-    element: <Teams />
+    element: <SidebarLayout content={<Teams />} />,
   },
   {
     path: "/players",
-    element: <Players />
-  }
+    element: <SidebarLayout content={<Players />} />,
+  },
 ]);

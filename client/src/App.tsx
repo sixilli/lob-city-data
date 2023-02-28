@@ -8,32 +8,9 @@ function App() {
 }
 
 function AppComponent() {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="App">
-      <div>
-        <Link to={"/"}>home</Link>
-      </div>
-      <div>
-        <Link to={"button"}>button</Link>
-      </div>
-      <div>
-        <Link to={"button-error"}>error button</Link>
-      </div>
-      <div>
-        <Link to={"teams"}>Teams</Link>
-      </div>
-      <div>
-        <Link to={"players"}>Players</Link>
-      </div>
-      <h1>Counter Example</h1>
-      <div className="card">
-        <p>Click button to increment</p>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
+      <h2>Home Page</h2>
     </div>
   );
 }
