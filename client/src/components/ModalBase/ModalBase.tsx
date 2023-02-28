@@ -8,11 +8,13 @@ const style: SxProps = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
+  minWidth: 800,
   bgcolor: "#242424",
   border: "2px solid #000",
   boxShadow: 24,
-  minHeight: "30%",
+  display: "flex",
+  justifyContent: "center",
+  flex: 1,
   p: 4,
 };
 

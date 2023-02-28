@@ -43,12 +43,7 @@ export function Teams() {
     setOpen(true);
   };
 
-  if (isLoading)
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
+  if (isLoading) return <Loader />;
 
   if (error) {
     console.log(error.message, data);
