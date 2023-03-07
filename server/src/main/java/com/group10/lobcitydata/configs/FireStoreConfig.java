@@ -14,7 +14,8 @@ public class FireStoreConfig {
     @Bean
     public Firestore getFireStore() throws IOException {
         GoogleCredentials credentials;
-        if (System.getProperty("firestore-env").equals("prod")) {
+        var fireStoreEnv = System.getProperty("firestore-env");
+        if (fireStoreEnv != null && fireStoreEnv.equals("prod")) {
             credentials = GoogleCredentials.getApplicationDefault();
         } else {
             var fs = new FileInputStream("firestore/firestore.json");
