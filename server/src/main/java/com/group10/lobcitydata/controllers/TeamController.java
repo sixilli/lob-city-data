@@ -1,10 +1,15 @@
 package com.group10.lobcitydata.controllers;
 
-import com.group10.lobcitydata.models.ErrorMessage;
+import com.group10.lobcitydata.models.DataResponse;
+import com.group10.lobcitydata.models.nba.NbaTeam;
+import com.group10.lobcitydata.models.nba.NbaTeamStatistic;
+import com.group10.lobcitydata.models.nba.NbaTeams;
 import com.group10.lobcitydata.models.rapidapi.TeamStatistic;
+import com.group10.lobcitydata.repositories.Impl.TeamRepositoryImpl;
+import com.group10.lobcitydata.repositories.Impl.TeamStatisticRepoImpl;
+import com.group10.lobcitydata.services.NbaAdapter;
 import com.group10.lobcitydata.services.RapidApiAdaptor;
 import com.group10.lobcitydata.models.rapidapi.Team;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,30 +21,28 @@ import java.util.*;
 @RestController
 @RequestMapping("teams")
 public class TeamController  {
-    @Autowired
-    RapidApiAdaptor rapidApiAdaptor;
+    private final NbaAdapter nbaAdapter;
+    private final TeamRepositoryImpl teamRepo;
+    private final TeamStatisticRepoImpl teamStatisticRepo;
+
+    public TeamController(TeamRepositoryImpl teamRepositoryImpl, TeamStatisticRepoImpl teamStatisticRepoImpl,
+                          NbaAdapter nbaAdapter) {
+        this.teamRepo = teamRepositoryImpl;
+        this.teamStatisticRepo = teamStatisticRepoImpl;
+        this.nbaAdapter = nbaAdapter;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Team>> getTeams(@RequestParam Map<String,String> queryParams) throws Exception {
-        Set<String> validQueryParameters = new HashSet<>(Arrays.asList("id", "name", "code", "league",
-                "conference", "division", "search"));
-
-        queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
-
-        List<Team> teams = rapidApiAdaptor.getTeams(queryParams);
-        if (teams.isEmpty()) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "request found no teams");
-        }
-
-        return ResponseEntity.ok(teams);
+    public ResponseEntity<List<NbaTeam>> getTeams() {
+        return ResponseEntity.ok(NbaTeams.getTeams());
     }
 
     @GetMapping(path = "/{id}/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TeamStatistic>> getTeamStatistics(@RequestParam Map<String, String> queryParams, @PathVariable String id) throws Exception {
-        Set<String> validQueryParameters = new HashSet<>(Arrays.asList("season"));
+    public ResponseEntity<NbaTeamStatistic> getTeamStatistics(@RequestParam Map<String, String> queryParams, @PathVariable String id) throws Exception {
+        HashSet<String> validQueryParameters = new HashSet<>(List.of("season"));
         queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
 
-        if (queryParams.size() < 1) {
+        if (queryParams.size() < 1 || !queryParams.containsKey("season")) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,
                     "teams statistics endpoint requires the season query parameter");
         }
@@ -55,12 +58,14 @@ public class TeamController  {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "invalid team id: " + id);
         }
 
-        List<TeamStatistic> teams = rapidApiAdaptor.getTeamStatistics(queryParams, id);
-        if (teams.isEmpty()) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "request found no stats for team with id: " + id);
+        var dbId = NbaTeamStatistic.getDbId(id, queryParams.get("season"));
+        var teamStatisticBySeason = this.teamStatisticRepo.findItemByID(dbId);
+        if (teamStatisticBySeason.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,
+                    "Could not find any statistics data for team: " + id + " during the season " + queryParams.get("season"));
         }
 
-        return ResponseEntity.ok(teams);
+        return ResponseEntity.ok(teamStatisticBySeason.get());
     }
 
     @GetMapping(path ="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,5 +73,21 @@ public class TeamController  {
         var map = new HashMap<String, String>();
         map.put("hello", String.valueOf(id));
         return map;
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Team>> batchInsertTeams(@RequestBody List<Team> teams) {
+        teamRepo.batch(teams);
+        return ResponseEntity.ok(teams);
+    }
+
+    @PostMapping(path = "statistics/refresh", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> refreshStatistics() throws Exception {
+        for (var team : NbaTeams.getTeams()) {
+            var statistics = this.nbaAdapter.getAllTeamStatistics(Integer.toString(team.id));
+            teamStatisticRepo.batchSet(statistics);
+        }
+
+        return ResponseEntity.ok("completed teams statistics refresh");
     }
 }

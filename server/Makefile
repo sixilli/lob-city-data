@@ -6,6 +6,3 @@ run:
 
 native:
 	mvn spring-boot:build-image -Dspring-boot.build-image.imageName=alecperro/lobcitydata
-
-artifact:
-	docker push alecperro/lobcitydata

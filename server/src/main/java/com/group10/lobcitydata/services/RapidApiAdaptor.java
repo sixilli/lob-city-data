@@ -12,6 +12,7 @@ import com.group10.lobcitydata.models.rapidapi.TeamStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.IOException;
 import java.net.URI;
@@ -56,7 +57,7 @@ public class RapidApiAdaptor {
         return mapResponse(Player.class, response.body()).getResponse();
     }
 
-    public List<TeamStatistic> getTeamStatistics(Map<String, String> queryParams, String teamId) throws Exception {
+    public TeamStatistic getTeamStatistics(Map<String, String> queryParams, String teamId) throws Exception {
         UrlBuilder ub = new UrlBuilder(config.getUrlBase(), TEAM_STATISTICS_PATH);
         if (!queryParams.isEmpty()) {
             ub.addQueryParams(queryParams);
@@ -65,7 +66,13 @@ public class RapidApiAdaptor {
 
         HttpResponse<String> response = makeGetRequest(ub);
 
-        return mapResponse(TeamStatistic.class, response.body()).getResponse();
+        var resp = mapResponse(TeamStatistic.class, response.body()).getResponse();
+        if (resp.isEmpty()) {
+            throw new Exception(
+                    "request found no stats for team with id: " + teamId + " and season: " + queryParams.get("season"));
+        }
+
+        return resp.get(0);
     }
 
     private HttpResponse<String> makeGetRequest(UrlBuilder url) throws Exception {

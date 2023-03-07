@@ -1,6 +1,6 @@
 import ModalBase from "../ModalBase/ModalBase";
 import { useQuery } from "react-query";
-import { TeamStatistics } from "../../models/rapidapi";
+import { TeamStatistic } from "../../models/nba-api";
 import { requestTeamStatistics } from "../../requests/requests";
 import Loader from "../Loader/Loader";
 import {
@@ -32,7 +32,7 @@ export function TeamStatsModal({
 }: Props) {
   const [selectedSeason, setSelectedSeason] = useState(season);
 
-  const { isLoading, error, data, refetch } = useQuery<TeamStatistics[], Error>(
+  const { isLoading, error, data, refetch } = useQuery<TeamStatistic, Error>(
     ["team stats", teamId, selectedSeason],
     () => requestTeamStatistics(teamId, selectedSeason)
   );
@@ -47,11 +47,9 @@ export function TeamStatsModal({
     handleClose();
   }
 
-  const makeGridBlock = (message: string, key: string) => (
-    <Grid item xs={4} key={key}>
-      <Typography variant="body1" key={key + "-body"}>
-        {message}
-      </Typography>
+  const makeGridBlock = (message: string) => (
+    <Grid item xs={4}>
+      <Typography variant="body1">{message}</Typography>
     </Grid>
   );
 
@@ -62,7 +60,7 @@ export function TeamStatsModal({
 
   const seasonSelections = (numYears: number) => {
     const selections = [];
-    const start = new Date().getFullYear();
+    const start = new Date().getFullYear() - 1;
     for (let i = start; i > start - numYears; i--) {
       selections.push({ value: i, display: i.toString() });
     }
@@ -73,85 +71,31 @@ export function TeamStatsModal({
     <>
       {data && (
         <Stack spacing={2}>
-          {data.map((stats, index) => (
-            <>
-              <TeamStastModalHeader
-                teamName={teamName}
-                selectedSeason={selectedSeason}
-                key={`${index}-header`}
-              />
-              <SelectField
-                label={"Season"}
-                defaultValue={selectedSeason}
-                keyValues={seasonSelections(20)}
-                handleChange={handleChange}
-                key={`${index}-select`}
-              />
-              <Grid container spacing={2}>
-                {makeGridBlock(`Games: ${stats.games}`, `${index}-games`)}
-                {makeGridBlock(
-                  `Fast Break Points: ${stats.fastBreakPoints}`,
-                  `${index}-break-points`
-                )}
-                {makeGridBlock(
-                  `Points in Paint: ${stats.pointsInPaint}`,
-                  `${index}-paint`
-                )}
-                {makeGridBlock(
-                  `Biggest Lead: ${stats.biggestLead}`,
-                  `${index}-biggest-lead`
-                )}
-                {makeGridBlock(
-                  `Second Chance Points: ${stats.secondChancePoints}`,
-                  `${index}second-chance`
-                )}
-                {makeGridBlock(
-                  `Points Off Turnovers: ${stats.pointsOffTurnovers}`,
-                  `${index}-points-off-turnovers`
-                )}
-                {makeGridBlock(
-                  `Longest Run: ${stats.longestRun}`,
-                  `${index}-longest-run`
-                )}
-                {makeGridBlock(`Points: ${stats.points}`, `${index}-points`)}
-                {makeGridBlock(`FGM: ${stats.fgm}`, `${index}-fgm`)}
-                {makeGridBlock(`FGA: ${stats.fga}`, `${index}-fga`)}
-                {makeGridBlock(`FGP: ${stats.fgp}`, `${index}-fgp`)}
-                {makeGridBlock(`FTM: ${stats.ftm}`, `${index}-ftm`)}
-                {makeGridBlock(`FTA: ${stats.fta}`, `${index}-fta`)}
-                {makeGridBlock(`FTP: ${stats.ftp}`, `${index}-ftp`)}
-                {makeGridBlock(`TPM: ${stats.tpm}`, `${index}-tpm`)}
-                {makeGridBlock(`TPA: ${stats.tpa}`, `${index}-tpa`)}
-                {makeGridBlock(
-                  `Offensive Rebound: ${stats.offReb}`,
-                  `${index}-off-rebounds`
-                )}
-                {makeGridBlock(
-                  `Defensive Rebounds: ${stats.defReb}`,
-                  `${index}-def-rebounds`
-                )}
-                {makeGridBlock(
-                  `Total Rebounds: ${stats.totReb}`,
-                  `${index}-tot-rebounds`
-                )}
-                {makeGridBlock(`Assists: ${stats.assists}`, `${index}-assits`)}
-                {makeGridBlock(
-                  `Penalty Fouls: ${stats.pFouls}`,
-                  `${index}-fouls`
-                )}
-                {makeGridBlock(`Steals: ${stats.steals}`, `${index}-steals`)}
-                {makeGridBlock(
-                  `Turnovers: ${stats.turnovers}`,
-                  `${index}-turnovers`
-                )}
-                {makeGridBlock(`Blocks: ${stats.blocks}`, `${index}-blocks`)}
-                {makeGridBlock(
-                  `Plus Minus: ${stats.plusMinus}`,
-                  `${index}-plus-minus`
-                )}
-              </Grid>
-            </>
-          ))}
+          <TeamStastModalHeader
+            teamName={teamName}
+            selectedSeason={data.year}
+          />
+          <SelectField
+            label={"Season"}
+            defaultValue={selectedSeason}
+            keyValues={seasonSelections(20)}
+            handleChange={handleChange}
+          />
+          <Grid container spacing={2}>
+            {makeGridBlock(`Games: ${data.gp}`)}
+            {makeGridBlock(`Wins: ${data.wins}`)}
+            {makeGridBlock(`Losses: ${data.losses}`)}
+            {makeGridBlock(`Win Percentage: ${data.winPct}`)}
+            {makeGridBlock(`Conference Rank: ${data.confRank}`)}
+            {makeGridBlock(`Playoff Wins: ${data.poWins}`)}
+            {makeGridBlock(`Playoff Losses: ${data.poLosses}`)}
+            {makeGridBlock(`FGM: ${data.fgm}`)}
+            {makeGridBlock(`FGA: ${data.fga}`)}
+            {makeGridBlock(`FGP: ${data.fgPct}`)}
+            {makeGridBlock(`3 FGP: ${data.fg3Pct}`)}
+            {makeGridBlock(`FTM: ${data.ftm}`)}
+            {makeGridBlock(`FTA: ${data.fta}`)}
+          </Grid>
         </Stack>
       )}
     </>
