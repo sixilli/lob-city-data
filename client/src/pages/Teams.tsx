@@ -6,24 +6,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 import Loader from "../components/Loader/Loader";
-import { Team } from "../models/rapidapi";
+import { Team } from "../models/nba-api";
 import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import { TeamStatsModal } from "../components/TeamsStatsModal/TeamStatsModal";
-
-function cleanTeamData(teams: Team[]) {
-  return teams
-    .filter(
-      (team) => !(team.city.toLowerCase() === "home") && team.nbaFranchise
-    )
-    .map((team) => {
-      if (team.city.toLocaleLowerCase() === "la") {
-        team.name = "Los Angeles";
-      }
-      return team;
-    });
-}
 
 export function Teams() {
   const [open, setOpen] = useState(false);
@@ -57,17 +44,17 @@ export function Teams() {
         </Typography>
         <Grid2 container spacing={0} columns={{ xs: 4, sm: 8, md: 12 }}>
           {data &&
-            cleanTeamData(data)?.map((team, index) => (
+            data.map((team, index) => (
               <Grid2 xs={2} sm={4} md={4} key={index}>
                 <ListItemButton
                   onClick={() =>
-                    handleClick(team.name as string, team.id.toString())
+                    handleClick(team.nickname as string, team.id.toString())
                   }
                   key={`list-button-${index}`}
                 >
                   <ListItemText
                     key={`list-text-${index}`}
-                    primary={team.name}
+                    primary={team.nickname}
                     secondary={
                       <Typography style={{ color: "gray" }}>
                         {team.city}

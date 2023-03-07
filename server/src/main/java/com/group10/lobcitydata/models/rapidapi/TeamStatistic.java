@@ -1,6 +1,10 @@
 package com.group10.lobcitydata.models.rapidapi;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class TeamStatistic {
+        @JsonIgnore
+        private String id;
         private int games;
         private int fastBreakPoints;
         private int pointsInPaint;
@@ -234,5 +238,13 @@ public class TeamStatistic {
 
         public void setPlusMinus(int plusMinus) {
                 this.plusMinus = plusMinus;
+        }
+
+        public String getId() {
+                return id;
+        }
+
+        public void setId(String id) {
+                this.id = id;
         }
 }

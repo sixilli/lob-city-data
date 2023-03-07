@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UrlBuilder {
-    private String urlBase, route;
+    private final String urlBase, route;
     HashMap<String, String> queryParams;
     
     public UrlBuilder(String urlBase, String route) {
@@ -18,7 +18,7 @@ public class UrlBuilder {
     }
 
     public void addQueryParams(Map<String,String> queryParams) {
-        queryParams.forEach((key, value) -> this.queryParams.put(key, value));
+        this.queryParams.putAll(queryParams);
     }
 
     @Override
