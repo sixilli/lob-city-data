@@ -1,14 +1,11 @@
 package com.group10.lobcitydata.controllers;
 
-import com.group10.lobcitydata.models.DataResponse;
 import com.group10.lobcitydata.models.nba.NbaTeam;
 import com.group10.lobcitydata.models.nba.NbaTeamStatistic;
 import com.group10.lobcitydata.models.nba.NbaTeams;
-import com.group10.lobcitydata.models.rapidapi.TeamStatistic;
 import com.group10.lobcitydata.repositories.Impl.TeamRepositoryImpl;
 import com.group10.lobcitydata.repositories.Impl.TeamStatisticRepoImpl;
 import com.group10.lobcitydata.services.NbaAdapter;
-import com.group10.lobcitydata.services.RapidApiAdaptor;
 import com.group10.lobcitydata.models.rapidapi.Team;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

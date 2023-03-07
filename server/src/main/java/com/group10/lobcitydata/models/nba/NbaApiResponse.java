@@ -1,12 +1,10 @@
 package com.group10.lobcitydata.models.nba;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(value = { "parameters" })
 public class NbaApiResponse<T> {
     public String resource;
-    @JsonDeserialize(using = NbaTeamStatsDeserializer.class)
     public T resultSets;
 
     public String getResource() {

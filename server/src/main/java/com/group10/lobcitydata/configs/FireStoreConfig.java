@@ -3,6 +3,7 @@ package com.group10.lobcitydata.configs;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
+import com.google.firebase.FirebaseApp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +14,14 @@ import java.io.IOException;
 public class FireStoreConfig {
     @Bean
     public Firestore getFireStore() throws IOException {
-        var fs = new FileInputStream("firestore/firestore.json");
-        var credentials = GoogleCredentials.fromStream(fs);
+        GoogleCredentials credentials;
+        if (System.getProperty("firestore-env").equals("prod")) {
+            credentials = GoogleCredentials.getApplicationDefault();
+        } else {
+            var fs = new FileInputStream("firestore/firestore.json");
+            credentials = GoogleCredentials.fromStream(fs);
+        }
+
         var options = FirestoreOptions.newBuilder().
                 setCredentials(credentials);
 

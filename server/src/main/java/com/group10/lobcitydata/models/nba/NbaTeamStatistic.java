@@ -1,8 +1,10 @@
 package com.group10.lobcitydata.models.nba;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(using = NbaTeamStatsDeserializer.class)
 public class NbaTeamStatistic {
     public String id;
     public int teamId;

@@ -26,6 +26,7 @@ public class NbaAdapter {
 
     private static final String BASE_PATH = "https://stats.nba.com/stats";
     private static final String TEAM_YEAR_BY_YEAR = "/teamyearbyyearstats";
+    private static final String PLAYER_STATS_BY_YEAR = "/playercareerstats";
 
     public NbaAdapter() {}
 
@@ -40,7 +41,9 @@ public class NbaAdapter {
 
         var body = makeGetRequest(url);
 
-        return mapResponse(new TypeReference<List<NbaTeamStatistic>>(){}, body).resultSets;
+        var mapper = new ObjectMapper();
+        var res = mapper.readValue(body, new TypeReference<NbaApiResponse<List<NbaTeamStatistic>>>(){});
+        return res.getResultSets();
     }
 
     private String makeGetRequest(UrlBuilder url) throws Exception {
