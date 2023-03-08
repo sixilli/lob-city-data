@@ -6,6 +6,7 @@ import com.google.cloud.firestore.FirestoreOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,14 +22,13 @@ public class FireStoreConfig {
         GoogleCredentials credentials;
         var fireStoreEnv = System.getenv("firestore-env");
         if (fireStoreEnv != null && fireStoreEnv.equals("prod")) {
-            try (Stream<Path> stream = Files.list(Paths.get("."))) {
-                var s = stream
-                        .filter(file -> !Files.isDirectory(file))
-                        .map(Path::getFileName)
-                        .map(Path::toString)
-                        .collect(Collectors.toSet());
-                System.out.println(s);
+            String[] pathnames;
+            File f = new File("D:/Programming");
+            pathnames = f.list();
+            for (String pathname : pathnames) {
+                System.out.println(pathname);
             }
+
             credentials = GoogleCredentials.getApplicationDefault();
         } else {
             var fs = new FileInputStream("firestore/firestore.json");
