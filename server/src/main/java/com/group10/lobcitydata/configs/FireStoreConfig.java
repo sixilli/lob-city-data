@@ -23,7 +23,7 @@ public class FireStoreConfig {
         var fireStoreEnv = System.getenv("firestore-env");
         if (fireStoreEnv != null && fireStoreEnv.equals("prod")) {
             String[] pathnames;
-            File f = new File("D:/Programming");
+            File f = new File(".");
             pathnames = f.list();
             for (String pathname : pathnames) {
                 System.out.println(pathname);
