@@ -1,7 +1,7 @@
 FROM maven:3.8.7-eclipse-temurin-19-alpine
 ENV firestore-env=prod
-ARG var_name
-ENV CREDS=$var_name
+ARG creds
+ENV CREDS=$creds
 WORKDIR /web-server
 COPY . .
 EXPOSE 8080
