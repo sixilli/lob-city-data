@@ -22,6 +22,7 @@ public class FireStoreConfig {
         GoogleCredentials credentials;
         var fireStoreEnv = System.getenv("firestore-env");
         if (fireStoreEnv != null && fireStoreEnv.equals("prod")) {
+            System.out.println("Working Directory = " + System.getProperty("user.dir"));
             String[] pathnames;
             File f = new File(".");
             pathnames = f.list();
