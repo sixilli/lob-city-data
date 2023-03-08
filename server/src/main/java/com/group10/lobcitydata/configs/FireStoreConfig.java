@@ -15,7 +15,7 @@ public class FireStoreConfig {
         GoogleCredentials credentials;
         var fireStoreEnv = System.getenv("firestore-env");
         if (fireStoreEnv != null && fireStoreEnv.equals("prod")) {
-            credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(System.getenv("CREDS").getBytes())));
+            credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(System.getenv("CREDS").getBytes()));
         } else {
             var fs = new FileInputStream("firestore/firestore.json");
             credentials = GoogleCredentials.fromStream(fs);
