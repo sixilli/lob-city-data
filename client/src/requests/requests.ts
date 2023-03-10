@@ -13,6 +13,11 @@ async function makeRequest(url: string): Promise<Response> {
   return response;
 }
 
+export async function pingBackend(): Promise<Response> {
+  const response = await makeRequest(urlBase);
+  return response.json();
+}
+
 export async function requestTeams(): Promise<any> {
   const url = urlBase + "/teams";
   const response = await makeRequest(url);

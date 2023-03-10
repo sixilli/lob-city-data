@@ -3,16 +3,7 @@ import { useQuery } from "react-query";
 import { TeamStatistic } from "../../models/nba-api";
 import { requestTeamStatistics } from "../../requests/requests";
 import Loader from "../Loader/Loader";
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Grid, SelectChangeEvent, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { SelectField } from "../SelectField/SelectField";
 
@@ -37,7 +28,7 @@ export function TeamStatsModal({
     () => requestTeamStatistics(teamId, selectedSeason)
   );
 
-  if (isLoading)
+  if (isLoading && !data)
     return (
       <ModalBase open={open} content={<Loader />} handleClose={handleClose} />
     );

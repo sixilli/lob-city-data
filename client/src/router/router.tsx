@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import App from "../App";
+import { Home } from "../pages/Home";
 import { ExampleButton } from "../components/ExampleButton/ExampleButton";
 import { Teams } from "../pages/Teams";
 import { Players } from "../pages/Players";
@@ -10,19 +10,11 @@ import { NotFound } from "../pages/ErrorPage";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <SidebarLayout content={<App />} />,
+    element: <SidebarLayout content={<Home />} />,
   },
   {
     path: "/button",
     element: <SidebarLayout content={<ExampleButton message={"hello"} />} />,
-  },
-  {
-    path: "/button-error",
-    element: (
-      <SidebarLayout
-        content={<ExampleButton message={"error"} isError={true} />}
-      />
-    ),
   },
   {
     path: "/teams",

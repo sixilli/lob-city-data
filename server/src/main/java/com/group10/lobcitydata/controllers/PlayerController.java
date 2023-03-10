@@ -1,5 +1,7 @@
 package com.group10.lobcitydata.controllers;
 
+import com.group10.lobcitydata.models.nba.NbaPlayer;
+import com.group10.lobcitydata.models.nba.NbaPlayers;
 import com.group10.lobcitydata.models.rapidapi.Player;
 import com.group10.lobcitydata.services.RapidApiAdaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +20,20 @@ public class PlayerController {
     RapidApiAdaptor rapidApiAdaptor;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Player>> getPlayers(@RequestParam Map<String,String> queryParams) throws Exception {
-        Set<String> validQueryParameters = new HashSet<>(Arrays.asList("id", "name", "team", "season",
-                "country", "search"));
+    public ResponseEntity<List<NbaPlayer>> getPlayers(@RequestParam Map<String,String> queryParams) throws Exception {
+        Set<String> validQueryParameters = new HashSet<>(Arrays.asList("active"));
 
         queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
 
-        List<Player> players = rapidApiAdaptor.getPlayers(queryParams);
-        if (players.isEmpty()) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "request found no players");
+        List<NbaPlayer> players;
+        if (!queryParams.containsKey("active")) {
+            players = NbaPlayers.getActive();
+        } else {
+            if (queryParams.get("active").equalsIgnoreCase("false")) {
+                players = NbaPlayers.players;
+            } else {
+                players = NbaPlayers.getActive();
+            }
         }
 
         return ResponseEntity.ok(players);

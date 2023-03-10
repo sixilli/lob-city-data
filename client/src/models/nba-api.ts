@@ -46,3 +46,11 @@ export interface Team {
   state: string;
   championshipYears: string[];
 }
+
+export interface BasicPlayer {
+  id: number;
+  lastName: string;
+  firstName: string;
+  fullName: string;
+  isActive: boolean;
+}
