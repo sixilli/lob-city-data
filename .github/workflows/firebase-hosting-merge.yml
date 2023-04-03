@@ -12,12 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: create-json
-          id: create-json
-          uses: jsdaniell/create-json@v1.2.2
-          with:
-            name: 'firebaseConfig.json'
-            json: '${{ secrets.FIREBASE_CLIENT_CONFIG }}'
-            dir: 'client/'
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: 'firebaseConfig.json'
+          json: '${{ secrets.FIREBASE_CLIENT_CONFIG }}'
+          dir: 'client/'
       - run: cd client && npm i && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
