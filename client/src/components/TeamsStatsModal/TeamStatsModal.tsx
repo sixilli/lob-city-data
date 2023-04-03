@@ -111,7 +111,7 @@ type headerProps = {
 function TeamStastModalHeader({ teamName, selectedSeason }: headerProps) {
   return (
     <Typography align="center" variant="h4">
-      {teamName} - {selectedSeason}
+      {teamName} {selectedSeason}
     </Typography>
   );
 }

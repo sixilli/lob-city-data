@@ -35,7 +35,7 @@ public class TeamController  {
     }
 
     @GetMapping(path = "/{id}/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NbaTeamStatistic> getTeamStatistics(@RequestParam Map<String, String> queryParams, @PathVariable String id) throws Exception {
+    public ResponseEntity<NbaTeamStatistic> getTeamStatistics(@RequestParam Map<String, String> queryParams, @PathVariable String id) {
         HashSet<String> validQueryParameters = new HashSet<>(List.of("season"));
         queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
 

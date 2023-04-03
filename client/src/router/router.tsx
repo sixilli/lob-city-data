@@ -1,31 +1,34 @@
-import { createBrowserRouter } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Routes,
+} from "react-router-dom";
+
+import { RequireAuth } from "../auth/RequireAuth";
 
 import { Home } from "../pages/Home";
-import { ExampleButton } from "../components/ExampleButton/ExampleButton";
 import { Teams } from "../pages/Teams";
 import { Players } from "../pages/Players";
 import SidebarLayout from "../components/SidebarLayout/SidebarLayout";
 import { NotFound } from "../pages/ErrorPage";
+import React from "react";
 
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <SidebarLayout content={<Home />} />,
-  },
-  {
-    path: "/button",
-    element: <SidebarLayout content={<ExampleButton message={"hello"} />} />,
-  },
-  {
-    path: "/teams",
-    element: <SidebarLayout content={<Teams />} />,
-  },
-  {
-    path: "/players",
-    element: <SidebarLayout content={<Players />} />,
-  },
-  {
-    path: "*",
-    element: <SidebarLayout content={<NotFound />} />,
-  },
-]);
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path={"/"} element={<SidebarLayout content={<Home />} />} />
+      <Route path={"/teams"} element={authSidebar(<Teams />)} />
+      <Route path={"/players"} element={authSidebar(<Players />)} />
+      <Route path={"*"} element={<SidebarLayout content={<NotFound />} />} />
+    </>
+  )
+);
+
+function authSidebar(children: JSX.Element) {
+  return (
+    <RequireAuth>
+      <SidebarLayout content={children} />
+    </RequireAuth>
+  );
+}
