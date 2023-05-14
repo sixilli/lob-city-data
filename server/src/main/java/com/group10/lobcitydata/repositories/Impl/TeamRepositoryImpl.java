@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TeamRepositoryImpl implements GenericRepository<Team> {
-    private CollectionReference collection;
+    private final CollectionReference collection;
 
     @Autowired
     public TeamRepositoryImpl(Firestore db) {

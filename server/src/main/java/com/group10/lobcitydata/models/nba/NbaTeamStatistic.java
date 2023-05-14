@@ -42,7 +42,7 @@ public class NbaTeamStatistic {
     public int pts;
     public int ptsRank;
 
-    public NbaTeamStatistic() {};
+    public NbaTeamStatistic() {}
 
     public NbaTeamStatistic(String id, int teamId, String teamCity, String teamName, String year, int gp, int wins,
                             int losses, double winPct, int confRank, int divRank, int poWins, int poLosses,

@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class ApiResponseDeserializer extends JsonDeserializer<String> {
     @Override
-    public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+    public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
         JsonNode node = mapper.readTree(jsonParser);
         return mapper.writeValueAsString(node);

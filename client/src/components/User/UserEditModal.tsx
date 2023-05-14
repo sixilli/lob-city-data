@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../auth/AuthContextProvider";
-import { Grid, Stack, Typography } from "@mui/material";
-import { SelectField } from "../SelectField/SelectField";
+import { Stack, Typography } from "@mui/material";
 import ModalBase from "../ModalBase/ModalBase";
 import Loader from "../Loader/Loader";
 

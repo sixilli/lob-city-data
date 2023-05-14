@@ -2,8 +2,7 @@ package com.group10.lobcitydata.repositories.Impl;
 
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteBatch;
-import com.group10.lobcitydata.models.nba.NbaTeamStatistic;
+import com.group10.lobcitydata.models.User;
 import com.group10.lobcitydata.repositories.GenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,28 +13,28 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Component
-public class TeamStatisticRepoImpl implements GenericRepository<NbaTeamStatistic> {
+public class UserRepositoryImpl implements GenericRepository<User> {
     private final Firestore db;
     private final CollectionReference collection;
 
     @Autowired
-    public TeamStatisticRepoImpl(Firestore db) {
+    public UserRepositoryImpl(Firestore db) {
         this.db = db;
-        this.collection = db.collection("team_statistics");
+        this.collection = db.collection("users");
     }
 
     @Override
-    public void saveItem(NbaTeamStatistic item) {
-        this.collection.document(item.getId()).set(item);
+    public void saveItem(User item) {
+        this.collection.document(item.getUuid()).set(item);
     }
 
     @Override
-    public Optional<NbaTeamStatistic> findItemByID(String id) {
+    public Optional<User> findItemByID(String id) {
         var snapshotFuture = this.collection.document(id).get();
         try {
             var snapshot = snapshotFuture.get();
             if (snapshot.exists()) {
-                return Optional.ofNullable(snapshot.toObject(NbaTeamStatistic.class));
+                return Optional.ofNullable(snapshot.toObject(User.class));
             }
         } catch (InterruptedException | ExecutionException e) {
             System.out.println(e);
@@ -45,17 +44,17 @@ public class TeamStatisticRepoImpl implements GenericRepository<NbaTeamStatistic
     }
 
     @Override
-    public NbaTeamStatistic updateItem(NbaTeamStatistic item) {
-        return null;
-    }
+    public User updateItem(User item) {
+                                    return null;
+                                                }
 
     @Override
-    public Optional<List<NbaTeamStatistic>> getAll() {
+    public Optional<List<User>> getAll() {
         var collectionFuture = this.collection.get();
         try {
             var queryDocumentSnapshots = collectionFuture.get().getDocuments();
             return Optional.of(queryDocumentSnapshots.stream()
-                    .map(queryDocumentSnapshot -> queryDocumentSnapshot.toObject(NbaTeamStatistic.class))
+                    .map(queryDocumentSnapshot -> queryDocumentSnapshot.toObject(User.class))
                     .collect(Collectors.toList()));
 
         } catch (InterruptedException | ExecutionException e) {
@@ -63,18 +62,5 @@ public class TeamStatisticRepoImpl implements GenericRepository<NbaTeamStatistic
         }
 
         return Optional.empty();
-    }
-
-    public void batchSet(List<NbaTeamStatistic> teamStatistics) throws ExecutionException, InterruptedException {
-        // Get a new write batch
-        WriteBatch batch = db.batch();
-
-        for (var teamStatistic : teamStatistics) {
-            var teamStatRef = this.collection.document(teamStatistic.id);
-            batch.set(teamStatRef, teamStatistic);
-        }
-
-        // asynchronously commit the batch
-        batch.commit();
     }
 }

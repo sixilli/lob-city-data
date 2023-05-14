@@ -5,8 +5,8 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public interface GenericRepository<T> {
-    public void saveItem(T item);
-    public Optional<T> findItemByID(String id) throws ExecutionException, InterruptedException;
-    public T updateItem(T item);
-    public Optional<List<T>> getAll();
+    void saveItem(T item);
+    Optional<T> findItemByID(String id) throws ExecutionException, InterruptedException;
+    T updateItem(T item);
+    Optional<List<T>> getAll();
 }
