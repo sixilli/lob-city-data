@@ -28,7 +28,6 @@ export function AuthContextProvider({
 
   const signIn = () => {
     signInPopup().then((authProvider) => {
-      console.log(authProvider);
       if (authProvider) {
         setAuthData(authProvider);
       }

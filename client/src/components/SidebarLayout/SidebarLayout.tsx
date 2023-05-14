@@ -14,16 +14,18 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useContext } from "react";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../auth/AuthContextProvider";
 
 type SidebarItem = {
   text: string;
   link: string;
   icon?: any;
+  requiresLogin: boolean;
 };
 
 type Props = {
@@ -33,21 +35,28 @@ export default function SidebarLayout({ content }: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerWidth = 240;
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+
+  const isLoggedIn = auth.authProvider?.isAuthenticated;
+
   const sidebarItems: SidebarItem[] = [
     {
       text: "Home",
       link: "/",
       icon: HomeIcon,
+      requiresLogin: false,
     },
     {
       text: "Players",
       link: "/players",
       icon: PersonIcon,
+      requiresLogin: true,
     },
     {
       text: "Teams",
       link: "/teams",
       icon: GroupsIcon,
+      requiresLogin: true,
     },
   ];
 
@@ -66,18 +75,33 @@ export default function SidebarLayout({ content }: Props) {
       </Toolbar>
       <Divider />
       <List>
-        {sidebarItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton onClick={() => goTo(item)}>
-              {item.icon && (
-                <ListItemIcon>
-                  <item.icon />
-                </ListItemIcon>
-              )}
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {sidebarItems.map((item, index) =>
+          item.requiresLogin ? (
+            isLoggedIn && (
+              <ListItem key={index} disablePadding>
+                <ListItemButton onClick={() => goTo(item)}>
+                  {item.icon && (
+                    <ListItemIcon>
+                      <item.icon />
+                    </ListItemIcon>
+                  )}
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            )
+          ) : (
+            <ListItem key={index} disablePadding>
+              <ListItemButton onClick={() => goTo(item)}>
+                {item.icon && (
+                  <ListItemIcon>
+                    <item.icon />
+                  </ListItemIcon>
+                )}
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          )
+        )}
       </List>
       <Divider />
     </div>

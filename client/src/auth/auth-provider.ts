@@ -1,6 +1,8 @@
 import { GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
 import { fbAuth } from "../main";
 import { FirebaseError } from "firebase/app";
+import { UserData } from "../models/user";
+import { postGetUserData } from "../requests/requests";
 
 export async function signInPopup() {
   const auth = fbAuth;
@@ -9,12 +11,15 @@ export async function signInPopup() {
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const authProvider: GoogleAuthData = {};
-    authProvider.user = result.user;
+
+    console.log(result);
+    authProvider.authData = result.user;
     authProvider.token = credential?.accessToken
       ? credential.accessToken
       : undefined;
     authProvider.isAuthenticated = Boolean(authProvider.token);
-    console.log("yay", authProvider);
+    authProvider.user = await getUserData(result.user);
+
     return authProvider;
   } catch (error) {
     if (error instanceof FirebaseError) {
@@ -25,6 +30,16 @@ export async function signInPopup() {
       console.log(errorCode, " ", errorMessage, " email: ", email);
     }
   }
+}
+
+async function getUserData(authData: User): Promise<UserData> {
+  const userData: UserData = {
+    uuid: authData.uid,
+    displayName: authData.displayName,
+    lastSignOn: authData.metadata.lastSignInTime,
+  };
+
+  return postGetUserData(userData);
 }
 
 export async function getCachedUser() {
@@ -41,15 +56,15 @@ export async function getCachedUser() {
     return authProvider;
   }
 
-  authProvider.user = fbAuth.currentUser;
+  authProvider.authData = fbAuth.currentUser;
   authProvider.token = credentials.accessToken;
   authProvider.isAuthenticated = Boolean(authProvider.token);
-  console.log(authProvider);
   return authProvider;
 }
 
 export interface GoogleAuthData {
   isAuthenticated?: boolean;
-  user?: User;
+  authData?: User;
+  user?: UserData;
   token?: string;
 }

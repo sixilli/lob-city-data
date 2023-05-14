@@ -2,6 +2,9 @@ import { useContext, useEffect } from "react";
 import { pingBackend } from "../requests/requests";
 import Button from "@mui/material/Button";
 import { AuthContext } from "../auth/AuthContextProvider";
+import { Grid, Stack, Typography } from "@mui/material";
+import banner from "../assets/Banner_Image_Home_Page.svg";
+import { UserPage } from "../components/User/UserPage";
 
 export function Home() {
   const auth = useContext(AuthContext);
@@ -10,19 +13,29 @@ export function Home() {
   }, []);
 
   return (
-    <div className="App">
-      <h2>Home Page</h2>
+    <>
       {!auth?.authProvider?.isAuthenticated ? (
-        <Button variant="contained" onClick={() => auth.singIn()}>
-          Login
-        </Button>
+        <>
+          <Stack spacing={2}>
+            <img src={banner} alt="Lob City Data banner" />
+            <Typography align="center" variant="body1">
+              To use Lob City Data you must be logged in.
+            </Typography>
+            <Grid xs={2} sm={4} md={4}>
+              <Button
+                variant="contained"
+                size={"medium"}
+                sx={{ width: "auto" }}
+                onClick={() => auth.singIn()}
+              >
+                Login
+              </Button>
+            </Grid>
+          </Stack>
+        </>
       ) : (
-        <div>
-          <h3>
-            You have been logged in {auth?.authProvider?.user?.displayName}
-          </h3>
-        </div>
+        <UserPage />
       )}
-    </div>
+    </>
   );
 }

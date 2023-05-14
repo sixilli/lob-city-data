@@ -11,6 +11,17 @@ export type KeyValues = {
   display: string;
 };
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 type Props = {
   label: string;
   defaultValue: any;
@@ -33,6 +44,7 @@ export function SelectField({
         value={defaultValue}
         label={label}
         onChange={handleChange}
+        MenuProps={MenuProps}
       >
         {keyValues.map((pair, index) => (
           <MenuItem key={`${pair.value}-${index}`} value={pair.value}>
