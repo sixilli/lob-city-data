@@ -4,10 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +18,10 @@ public class NbaPlayers {
     public static List<NbaPlayer> readInPlayers() {
         List<NbaPlayer> players = null;
         try {
-            File file = new ClassPathResource("players.json").getFile();
+            String playersResource = "players.json";
+            InputStream in = new ClassPathResource(playersResource).getInputStream();
             var om = new ObjectMapper().setPropertyNamingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy());
-            players = om.readValue(file, new TypeReference<>() {});
+            players = om.readValue(in, new TypeReference<>() {});
             if (players.isEmpty()) {
                 throw new Exception ("failed to load players.json");
             }
