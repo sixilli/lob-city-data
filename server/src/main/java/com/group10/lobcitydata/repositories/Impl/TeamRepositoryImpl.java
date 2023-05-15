@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+// 2.3.1  Team Repo for firestore
 @Component
 public class TeamRepositoryImpl implements GenericRepository<Team> {
     private final CollectionReference collection;

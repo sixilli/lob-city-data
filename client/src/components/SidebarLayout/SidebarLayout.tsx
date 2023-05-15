@@ -1,17 +1,12 @@
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import React, { useContext } from "react";
@@ -20,12 +15,14 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth/AuthContextProvider";
+import LogoutIcon from "@mui/icons-material/logout";
 
 type SidebarItem = {
   text: string;
   link: string;
   icon?: any;
   requiresLogin: boolean;
+  fn?: () => void;
 };
 
 type Props = {
@@ -58,14 +55,24 @@ export default function SidebarLayout({ content }: Props) {
       icon: GroupsIcon,
       requiresLogin: true,
     },
+    {
+      text: "Logout",
+      link: "/",
+      icon: LogoutIcon,
+      requiresLogin: true,
+      fn: auth.singOut,
+    },
   ];
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const goTo = (destination: SidebarItem) => {
-    navigate(destination.link);
+  const goTo = (si: SidebarItem) => {
+    if (si.fn) {
+      si.fn();
+    }
+    navigate(si.link);
   };
 
   const drawer = (

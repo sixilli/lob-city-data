@@ -10,6 +10,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Objects;
 
+/*
+    2.0.3 User Endpoint
+ */
 @RestController
 @RequestMapping("users")
 public class UserController {

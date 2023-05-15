@@ -3,6 +3,7 @@ package com.group10.lobcitydata.builders;
 import java.util.HashMap;
 import java.util.Map;
 
+// 2.4.2 URL builder for requests, must support query parameters
 public class UrlBuilder {
     private final String urlBase, route;
     HashMap<String, String> queryParams;

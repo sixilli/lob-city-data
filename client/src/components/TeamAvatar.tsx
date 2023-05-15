@@ -4,6 +4,8 @@ import { Avatar } from "@mui/material";
 type Props = {
   team: Team;
 };
+
+// 1.1.2 Team logos
 export function TeamAvatar({ team }: Props) {
   const buildLogoLink = (team: Team) => {
     if (team.nickname.toLowerCase() === "nuggets")

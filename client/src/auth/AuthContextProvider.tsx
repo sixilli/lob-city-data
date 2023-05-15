@@ -5,9 +5,11 @@ interface AuthContextType {
   authProvider?: GoogleAuthData;
   singIn: () => void;
   singOut: () => void;
+  testSignIn: () => void;
 }
 export const AuthContext = createContext<AuthContextType>(null!);
 
+// 1.3.2 Implement reusable flow within the UI.
 export function AuthContextProvider({
   children,
 }: {
@@ -38,10 +40,26 @@ export function AuthContextProvider({
     setAuthData(null!);
   };
 
+  const testSignIn = () => {
+    setAuthData({
+      isAuthenticated: true,
+      authData: null!,
+      user: {
+        uuid: "1234567890",
+        displayName: "Test User",
+        lastSignOn: null,
+        favoriteTeam: "Miami",
+        teamId: 0,
+      },
+      token: "test-user",
+    });
+  };
+
   const authContext: AuthContextType = {
     authProvider: authData,
     singIn: signIn,
     singOut: signOut,
+    testSignIn,
   };
 
   return (

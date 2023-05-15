@@ -7,6 +7,7 @@ import { Grid, SelectChangeEvent, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { SelectField } from "../SelectField/SelectField";
 
+// 1.1.1 Teams statistics modal that can filter year by year.
 type Props = {
   teamName: string;
   teamId: string;

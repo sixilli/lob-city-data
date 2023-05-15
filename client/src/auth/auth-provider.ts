@@ -4,6 +4,7 @@ import { FirebaseError } from "firebase/app";
 import { UserData } from "../models/user";
 import { postGetUserData } from "../requests/requests";
 
+// 1.0.1 Login flow
 export async function signInPopup() {
   const auth = fbAuth;
   const provider = new GoogleAuthProvider();

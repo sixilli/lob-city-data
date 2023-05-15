@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    2.2.3 NBA data models
+*/
 public class NbaTeamStatsDeserializer extends JsonDeserializer<List<NbaTeamStatistic>> {
     @Override
     public List<NbaTeamStatistic> deserialize(JsonParser jp, DeserializationContext ctx) throws IOException {

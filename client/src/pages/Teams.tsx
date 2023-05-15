@@ -7,18 +7,13 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 
 import Loader from "../components/Loader/Loader";
 import { Team } from "../models/nba-api";
-import {
-  Avatar,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Typography,
-} from "@mui/material";
+import { ListItem, ListItemAvatar, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import { TeamStatsModal } from "../components/TeamsStatsModal/TeamStatsModal";
 import { TeamAvatar } from "../components/TeamAvatar";
 
+// 1.1.0	Teams page to view all active teams.
 export function Teams() {
   const [open, setOpen] = useState(false);
   const [teamName, setTeamName] = useState("");

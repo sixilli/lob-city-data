@@ -1,5 +1,8 @@
 package com.group10.lobcitydata.models;
 
+/*
+    2.2.1 User
+*/
 public class User {
     public String uuid;
     public String displayName;

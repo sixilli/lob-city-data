@@ -2,6 +2,9 @@ package com.group10.lobcitydata.models.nba;
 
 import java.util.List;
 
+/*
+    2.2.3 NBA data models
+*/
 public class NbaTeam {
     public int id;
     public String abbreviation;

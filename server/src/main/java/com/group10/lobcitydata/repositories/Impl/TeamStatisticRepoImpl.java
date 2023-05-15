@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+// 2.3.2 Team Statistic Repo for firestore
 @Component
 public class TeamStatisticRepoImpl implements GenericRepository<NbaTeamStatistic> {
     private final Firestore db;

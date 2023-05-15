@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+// 2.3.3 User Repo for firestore
 @Component
 public class UserRepositoryImpl implements GenericRepository<User> {
     private final Firestore db;

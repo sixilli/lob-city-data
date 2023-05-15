@@ -13,6 +13,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 
+/*
+    2.0.2 Players endpoint
+*/
 @RestController
 @RequestMapping("players")
 public class PlayerController {
@@ -21,7 +24,7 @@ public class PlayerController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<NbaPlayer>> getPlayers(@RequestParam Map<String,String> queryParams) throws Exception {
-        Set<String> validQueryParameters = new HashSet<>(Arrays.asList("active"));
+        Set<String> validQueryParameters = new HashSet<>(List.of("active", "country"));
 
         queryParams.entrySet().removeIf(e -> !validQueryParameters.contains(e.getKey()));
 

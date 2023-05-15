@@ -3,6 +3,9 @@ package com.group10.lobcitydata.models.nba;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/*
+    2.2.3 NBA data models
+*/
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = NbaTeamStatsDeserializer.class)
 public class NbaTeamStatistic {

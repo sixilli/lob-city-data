@@ -21,6 +21,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
+// 2.4.1 Nba Adapter to fetch data from the official NBA api.
+
 @Service
 public class NbaAdapter {
 

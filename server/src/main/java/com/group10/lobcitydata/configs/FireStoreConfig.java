@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.*;
 
+// 2.5.1 Config loader that can handle both local and cloud configuration files
 @Configuration
 public class FireStoreConfig {
     @Bean

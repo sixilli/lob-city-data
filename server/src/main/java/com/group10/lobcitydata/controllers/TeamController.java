@@ -15,6 +15,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 
+/*
+    2.0.1 Teams endpoint - data is fairly static and won’t need updating
+*/
 @RestController
 @RequestMapping("teams")
 public class TeamController  {

@@ -1,5 +1,8 @@
 package com.group10.lobcitydata.models.nba;
 
+/*
+    2.2.3 NBA data models
+*/
 public class NbaPlayer {
     public int id;
     public String fullName;

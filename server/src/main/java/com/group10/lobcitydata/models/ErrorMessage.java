@@ -2,6 +2,9 @@ package com.group10.lobcitydata.models;
 
 import java.util.Date;
 
+/*
+    2.2.2 Response formats for normal data and errors
+*/
 public class ErrorMessage {
     private final int statusCode;
     private final Date timestamp;

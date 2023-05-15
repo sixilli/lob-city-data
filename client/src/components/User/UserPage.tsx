@@ -3,6 +3,7 @@ import { Stack, Typography } from "@mui/material";
 import { UserEditModal } from "./UserEditModal";
 import { AuthContext } from "../../auth/AuthContextProvider";
 
+// 1.2.0	Player page to view active players
 export function UserPage() {
   const auth = useContext(AuthContext);
   const [open, setOpen] = useState(false);
