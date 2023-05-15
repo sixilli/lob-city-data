@@ -15,7 +15,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth/AuthContextProvider";
-import LogoutIcon from "@mui/icons-material/logout";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 type SidebarItem = {
   text: string;
